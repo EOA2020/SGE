@@ -1,11 +1,9 @@
-using System;
-using SGE.Dominio.Expedientes;
 using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
 public interface ITramiteRepository
-{}
+{
     void AgregarTramite(Tramite tramite);
     void ModificarTramite(Tramite tramite);
     void EliminarTramite(Tramite tramite);

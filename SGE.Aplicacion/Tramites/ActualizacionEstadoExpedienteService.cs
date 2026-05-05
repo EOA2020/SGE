@@ -1,5 +1,4 @@
-using System;
-using System.Data.Common;
+using SGE.Aplicacion.Comun;
 using SGE.Aplicacion.Expedientes;
 using SGE.Dominio.Tramites;
 
@@ -13,7 +12,7 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
         var expediente = _expedienteRepository.ObtenerPorId(idExpediente);
 
         if (expediente == null) 
-            throw new Exception("El expediente no existe.");
+            throw new EntidadNoEncontradaException("El expediente no existe.");
 
         //traemos todos los trámites
         var todosLosTramites = _tramiteRepository.ObtenerTodos();
