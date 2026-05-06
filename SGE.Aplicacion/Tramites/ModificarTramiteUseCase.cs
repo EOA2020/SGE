@@ -8,27 +8,35 @@ namespace SGE.Aplicacion.Tramites;
 
 public class ModificarTramiteUseCase(ITramiteRepository tramiteRepository, IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
 {
-    private readonly ITramiteRepository _tramiteRepository = tramiteRepository;
-    private readonly IAutorizacionService _autorizacionService = autorizacionService;
-    private readonly ActualizacionEstadoExpedienteService _actualizacionExpediente = actualizacionExpediente;
+    
 public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request)
     {
-        
+        //verificamos que el id del usuario no este vacio
         if(request.IdUsuario == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
 
-        if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteModificacion))
+        //verificamos que tenga permisos
+        if(!autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteModificacion))
             throw new AutorizacionException("El usuario debe tener permiso");
         
-        var tramite = _tramiteRepository.ObtenerPorId(request.TramiteId);
-        if (tramite == null)
-            throw new Exception("El trámite que intenta modificar no existe");
+        //obtenemos el tramite
+        var tramite = tramiteRepository.ObtenerPorId(request.TramiteId);
 
+        //verificamos que exista
+        if (tramite == null)
+            throw new EntidadNoEncontradaException("El trámite que intenta modificar no existe");
+
+        //creamos el nuevo contenido
         var contenido = new ContenidoTramite(request.Contenido);
+
+        //modifcamos el contenido
         tramite.ModificarContenido(contenido, request.IdUsuario);
  
-        _tramiteRepository.ModificarTramite(tramite);
-        _actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
+        //modificamos el tramite
+        tramiteRepository.ModificarTramite(tramite);
+
+        //actualizamos el ultimo expediente
+        actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
 
         return new ModificarTramiteResponse();
     }

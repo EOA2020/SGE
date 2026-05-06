@@ -5,35 +5,30 @@ using SGE.Aplicacion.Comun;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class AgregarTramiteUseCase
+public class AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
 {
-    private readonly ITramiteRepository _tramiteRepository;
-    private readonly IAutorizacionService _autorizacionService;
-    private readonly ActualizacionEstadoExpedienteService _actualizacionExpediente;
-
-    public AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
-    {
-        _tramiteRepository = tramiteRepository;
-        _autorizacionService = autorizacionService;
-        _actualizacionExpediente = actualizacionExpediente;
-    }
-
+   
     public AgregarTramiteResponse Ejecutar(AgregarTramiteRequest request)
     {
+        //se verifica que el id del usuario no este vacio
         if(request.IdUsuario == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
 
-        if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))
+        //se verifica que el usuario tenga permiso
+        if(!autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))
             throw new AutorizacionException("El usuario debe tener permiso");
             
-
+        //creamos el nuevo contenido
         var contenido = new ContenidoTramite(request.Contenido); 
         
+        //creamos el nuevo tramite
         var tramite = new Tramite(request.ExpedienteId, contenido, request.IdUsuario);
 
-        _tramiteRepository.AgregarTramite(tramite);
+        //lo agregamos
+        tramiteRepository.AgregarTramite(tramite);
 
-        _actualizacionExpediente.ActualizarEstadoExpediente(tramite.UsuarioUltimoCambio,tramite.ExpedienteId);
+        //actualizamos el ultimo expediente
+        actualizacionExpediente.ActualizarEstadoExpediente(tramite.UsuarioUltimoCambio,tramite.ExpedienteId);
 
         return new AgregarTramiteResponse(tramite.Id);   
     }
