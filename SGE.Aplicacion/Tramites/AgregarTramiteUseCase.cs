@@ -25,6 +25,7 @@ public class AgregarTramiteUseCase
 
         if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))
             throw new AutorizacionException("El usuario debe tener permiso");
+            
 
         var contenido = new ContenidoTramite(request.Contenido); 
         

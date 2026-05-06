@@ -14,23 +14,21 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
         if (expediente == null) 
             throw new EntidadNoEncontradaException("El expediente no existe.");
 
-        //traemos todos los trámites
-        var todosLosTramites = _tramiteRepository.ObtenerTodos();
+        //traemos solo los tramites del expediente
+        var tramitesDelExpediente = _tramiteRepository.ObtenerPorExpedienteId(idExpediente);
 
         DateTime fechaMasReciente = DateTime.MinValue;
         EtiquetaTramite? ultimaEtiqueta = null;
 
         //buscamos el último tramite del expediente
-        foreach(var tramite in todosLosTramites)
+        foreach(var tramite in tramitesDelExpediente)
         {
-            if (tramite.ExpedienteId == idExpediente)
+            if (tramite.FechaCreacion > fechaMasReciente)
             {
-                if (tramite.FechaCreacion > fechaMasReciente)
-                {
-                    fechaMasReciente = tramite.FechaCreacion;
-                    ultimaEtiqueta = tramite.Etiqueta;
-                }
-            }
+                fechaMasReciente = tramite.FechaCreacion;
+                ultimaEtiqueta = tramite.Etiqueta;
+             }
+            
         }
 
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);

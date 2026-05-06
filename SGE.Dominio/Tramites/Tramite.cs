@@ -40,4 +40,14 @@ public class Tramite
         FechaUltimaModificacion = fechaUltimaModificacion;
     }
 
+    public void ModificarContenido(ContenidoTramite nuevoContenido, Guid idUsuario)
+    {
+        if(idUsuario == Guid.Empty)
+            throw new DominioException("El ID del usuario no puede ser vacío.");
+
+        Contenido = nuevoContenido ?? throw new DominioException("El contenido no puede ser nulo.");
+        UsuarioUltimoCambio = idUsuario;
+        FechaUltimaModificacion = DateTime.Now; 
+    }
+
 }
