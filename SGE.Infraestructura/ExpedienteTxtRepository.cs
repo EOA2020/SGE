@@ -119,46 +119,6 @@ public class ExpedienteRepository: IExpedienteRepository
         return Expediente.Reconstruir((Guid)datos[0], (Caratula)datos[1], (Guid)datos[2],(DateTime)datos[3],(DateTime)datos[4],(EstadoExpediente)datos[5]);
     }
 
-    /*
-    public List<Expediente> ObtenerTodos()
-    {
-        List<Expediente> resultado= new List<Expediente>();
-
-        //si archivo no existe devuelve lista vacia
-        if (!File.Exists(this._archivo))
-        {
-            return resultado;
-        }
-        using var sr = new StreamReader(this._archivo);
-        while (!sr.EndOfStream)
-        {
-           
-            //Se van leyendo las lineas con datos y se guarda c/u en un var
-            var  idStr= sr.ReadLine() ?? "";
-            var caratulaStr= sr.ReadLine() ?? "";
-            var usuarioUltimoCambioStr= sr.ReadLine() ?? "";
-            var fechaCreacionStr= sr.ReadLine() ?? "2000-01-01";
-            var fechaUltimaModificacionStr= sr.ReadLine() ?? "2000-01-01";            
-            var estadoStr = sr.ReadLine() ?? "";
-
-            //Se convierte
-            var id= Guid.Parse(idStr);
-            var caratula= new Caratula(caratulaStr);
-            var UsuarioUltimoCambio= Guid.Parse(usuarioUltimoCambioStr);
-            var fechaCreacion=  DateTime.Parse(fechaCreacionStr);
-            var fechaUltimaModificacion= DateTime.Parse(fechaUltimaModificacionStr);          
-            var estado= (EstadoExpediente)Enum.Parse(typeof (EstadoExpediente), estadoStr);
-  
-            //armamos el Expediente
-            var expediente= Expediente.Reconstruir(id, caratula, UsuarioUltimoCambio, fechaCreacion, fechaUltimaModificacion, estado);
-           // var expediente= Expediente.Reconstruir(id, caratula, UsuarioUltimoCambio, fechaCreacion, fechaUltimaModificacion, estado);
-            //agregamos expediente a la lista
-            resultado.Add(expediente);
-        }
-        //Devolvemos la lista de expedientes
-        return resultado; 
-    } */
-
     public List<Expediente> ObtenerTodos()
     {
         List<Expediente> resultado= new List<Expediente>();
