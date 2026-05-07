@@ -5,7 +5,7 @@ using SGE.Dominio.Expedientes;
 
 namespace SGE.Infraestructura;
 
-public class ExpedienteTxtRepository: IExpedienteRepository
+public class ExpedienteRepository: IExpedienteRepository
 {
 
     private readonly string _archivo= "Expediente.txt";
