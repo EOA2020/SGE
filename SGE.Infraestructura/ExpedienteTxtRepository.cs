@@ -40,7 +40,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         for (int i=0; i<lineas.Length && !ok; i += 6)
         {
             //Si id de registro igual a id buscado se realiza borrado logico
-            if (id.Equals(Guid.Parse(lineas[i])))
+            if (id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
             {
                 //se sobreescribe campo UsuarioUltimoCambio
                 lineas[i+2]= "***";
@@ -64,7 +64,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         for (int i=0; i<lineas.Length && !ok; i += 6)
         {
             //si se encontro modifico los campos
-            if (expediente.Id.Equals(Guid.Parse(lineas[i])))
+            if (expediente.Id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
             {
                 lineas[i]= expediente.Id.ToString() ;
                 lineas[i+1]= expediente.CaractulaExp.Valor;
@@ -90,7 +90,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
 
         for (int i=0; i<lineas.Length; i += 6)
         {
-            if (id.Equals(Guid.Parse(lineas[i])))
+            if (id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
             {
                 //guardo contenido de campos en lista de objetos
                 List<object> datos= new List<object> ();
@@ -132,19 +132,22 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         var lineas=  File.ReadAllLines(this._archivo);
         for (int i=0; i< lineas.Length; i+=6)
         {
-            List<object> datos= new List<object> ();
-            for (int j=0; j<6; j++)
+            //Si no fue borrado, se obtiene el registro
+            if (!lineas[i + 2].Equals("***"))
             {
-                datos.Add(lineas[i+j]);
-            } 
+                List<object> datos= new List<object> ();
+                for (int j=0; j<6; j++)
+                {
+                    datos.Add(lineas[i+j]);
+                } 
 
-            var expediente= this.ObtenerExpediente(datos);
-           
-            //agregamos expediente a la lista
-            resultado.Add(expediente);
+                var expediente= this.ObtenerExpediente(datos);
+            
+                //agregamos expediente a la lista
+                resultado.Add(expediente);                
+            }
         }
         //Devolvemos la lista de expedientes
         return resultado; 
     }    
-
 }
