@@ -42,6 +42,9 @@ public class ExpedienteTxtRepository: IExpedienteRepository
             //Si id de registro igual a id buscado se realiza borrado logico
             if (id.Equals(Guid.Parse(lineas[i])))
             {
+               //si registro ya fue borrado de forma logica arroja excepcion
+               if (lineas[i + 2].Equals("***")) throw new RepositorioException ($"El expediente con id {id} no existe");
+                
                 //se sobreescribe campo UsuarioUltimoCambio
                 lineas[i+2]= "***";
                 File.WriteAllLines(this._archivo, lineas);
@@ -49,7 +52,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
             }
         }
 
-        //si no esta lanzo excepcion
+        //si no esta lanza excepcion
         if (!ok) throw new RepositorioException("El expediente no existe!");      
     }
 
@@ -66,6 +69,9 @@ public class ExpedienteTxtRepository: IExpedienteRepository
             //si se encontro modifico los campos
             if (expediente.Id.Equals(Guid.Parse(lineas[i])))
             {
+                //Si expediente fue borrado lanza excepcion
+                if (lineas[i + 2].Equals("***")) throw new RepositorioException ($"El expediente con id {expediente.Id} no existe");
+
                 lineas[i]= expediente.Id.ToString() ;
                 lineas[i+1]= expediente.CaractulaExp.Valor;
                 lineas[i+2]= expediente.UsuarioUltimoCambio.ToString();
@@ -90,7 +96,7 @@ public class ExpedienteTxtRepository: IExpedienteRepository
 
         for (int i=0; i<lineas.Length; i += 6)
         {
-            if (id.Equals(Guid.Parse(lineas[i])))
+            if (id.Equals(Guid.Parse(lineas[i])) && !lineas[i+2].Equals("***"))
             {
                 //guardo contenido de campos en lista de objetos
                 List<object> datos= new List<object> ();
@@ -132,19 +138,22 @@ public class ExpedienteTxtRepository: IExpedienteRepository
         var lineas=  File.ReadAllLines(this._archivo);
         for (int i=0; i< lineas.Length; i+=6)
         {
-            List<object> datos= new List<object> ();
-            for (int j=0; j<6; j++)
+            //Si no fue borrado, se obtiene el registro
+            if (!lineas[i + 2].Equals("***"))
             {
-                datos.Add(lineas[i+j]);
-            } 
+                List<object> datos= new List<object> ();
+                for (int j=0; j<6; j++)
+                {
+                    datos.Add(lineas[i+j]);
+                } 
 
-            var expediente= this.ObtenerExpediente(datos);
-           
-            //agregamos expediente a la lista
-            resultado.Add(expediente);
+                var expediente= this.ObtenerExpediente(datos);
+            
+                //agregamos expediente a la lista
+                resultado.Add(expediente);                
+            }
         }
         //Devolvemos la lista de expedientes
         return resultado; 
     }    
-
 }

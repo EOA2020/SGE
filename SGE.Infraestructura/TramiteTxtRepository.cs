@@ -39,6 +39,10 @@ public class TramiteTxtRepository : ITramiteRepository
             //si tiene mismo id de tramite se modifica idUltimoCambio realizando borrado logico
             if (idTramite.Equals(Guid.Parse((string)lineas[i])))
             {
+                //Si tramite ya fue borrado tira excepcion
+                if (lineas[i+6].Equals("***")) throw new RepositorioException("El tramite no existe!"); 
+
+                //Sino se realiza borrado logico
                 lineas[i+6]="***";
                 File.WriteAllLines(this._archivo, lineas);
 
@@ -46,6 +50,7 @@ public class TramiteTxtRepository : ITramiteRepository
             }
         }
 
+        //Si no se encontro tramite arroja excepcion
         if (!ok) throw new RepositorioException("El tramite no existe!");
     }
 
@@ -59,8 +64,11 @@ public class TramiteTxtRepository : ITramiteRepository
         //recorre de tramite en tramite (tramite= 7 campos)
         for (int i=0; i<lineas.Length; i+=7)
         {
-            if (tramite.Id.Equals(Guid.Parse((string)lineas[i])))
+            if (tramite.Id.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
             {
+                //Si tramite ya fue borrado tira excepcion
+                if (lineas[i+6].Equals("***")) throw new RepositorioException("El tramite no existe!"); 
+
                 //Modifica cada campo por los nuevos valores
                 lineas[i]= tramite.Id.ToString();
                 lineas[i+1]= tramite.ExpedienteId.ToString();
@@ -106,7 +114,7 @@ public class TramiteTxtRepository : ITramiteRepository
         //recorre a partir de la posicion 1 entrando en campo idExpediente de cada tramite
         for (int i=1; i<lineas.Length; i += 7)
         {
-            if (expedienteId.Equals(Guid.Parse((string)lineas[i])))
+            if (expedienteId.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
             {
                 //lista de objetos para guardar los campos
                 var datos= new List<object>();
@@ -129,7 +137,7 @@ public class TramiteTxtRepository : ITramiteRepository
         //recorre a partir de la posicion entrando en campo id de cada tramite
         for (int i=0; i<lineas.Length; i += 7)
         {
-            if (idTramite.Equals(Guid.Parse((string)lineas[i])))
+            if (idTramite.Equals(Guid.Parse((string)lineas[i])) && !lineas[i+6].Equals("***"))
             {
                 //lista de objetos para guardar los campos
                 var datos= new List<object>();
