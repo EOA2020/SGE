@@ -6,7 +6,7 @@ using SGE.Dominio.Comun;
 using EliminarExpedienteUseCase = SGE.Aplicacion.Expedientes.EliminarExpedienteUseCase;
 using SGE.Aplicacion.Tramites;
 
-/// ----------------------------- EXPEDIENTES --------------------------------- ///
+Console.WriteLine("/// ---------------------------------- EXPEDIENTES ------------------------------------ ///");
 
 //instanciamos el repositorio que vamos a inyectar en nuestro caso de uso
 var repositorioExpediente = new ExpedienteTxtRepository();
@@ -17,14 +17,12 @@ var autorizacionService = new AutorizacionService();
 //creamos un usuario 
 Guid idUsuario = Guid.NewGuid();
 
-/////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE ////
-////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
 //crear la instancia de el caso de uso - AgregarExpedienteUseCase e inyectamos la dependencia
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE ////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("/////////////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN EXPEDIENTE /////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 var agregarExpediente = new AgregarExpedienteUseCase(repositorioExpediente, autorizacionService);
 
 //creamos nuestra peticion para crear un archivo
@@ -70,13 +68,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS EXPEDIENTE /////
-///////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS EXPEDIENTE ////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("/////////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS EXPEDIENTE //////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 //creamos la instancia del caso de uso - ObtenerTodosExpedienteUseCase e inyectamos dependencias
 var obtenerTodosExpedientes = new ObtenerTodosExpedienteUseCase(repositorioExpediente);
 
@@ -94,13 +90,11 @@ foreach(var e in listaExpedientes.Expedientes)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID //////
-/////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID ////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////////////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN EXPEDIENTE POR ID ///////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("El id a buscar es: 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf'");
 var obtenerPorIdExpediente = new ObtenerPorIdExpedienteCaseUse(repositorioExpediente);
 var obtenerPorIdExpedienteRequest = new ObtenerPorIdExpedienteRequest(Guid.Parse("e1fe34b9-c05f-4f54-b14d-b890d67c4acf"));
@@ -138,13 +132,11 @@ catch(Exception e)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN EXPEDIENTE - CARATULA Y ESTADO /////
-///////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN EXPEDIENTE - CARATULA Y ESTADO ////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("El id expediente a modificar: '40e780ea-0327-47c7-a71b-b8efec64c1f8'");
 var modificarExpediente = new ModificarCaratulaExpedienteUseCase(repositorioExpediente, autorizacionService);
 var cambiarEstado = new CambiarEstadoExpedienteUseCase(repositorioExpediente, autorizacionService);
@@ -177,13 +169,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPEDIENTE               /////
-///////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPEDIENTE               /////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////// PRUEBA UNITARIA - CASO DE USO ELIMINAR EXPEDIENTE ///////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 var eliminarExpediente = new EliminarExpedienteUseCase(repositorioExpediente, repositorioTramite, autorizacionService);
 var eliminarExpedienteRequest = new EliminarExpedienteRequest(Guid.Parse("af86880c-d392-4cb9-a84c-3fde35adbc49"), idUsuario);
@@ -213,11 +203,7 @@ Console.WriteLine();
 Console.WriteLine();
 
 
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-////////////////////////////////////////////////////////////////////////////////
-
-Console.WriteLine(" ----------------------------- TRAMITES --------------------------------- ");
+Console.WriteLine(" -------------------------------------- TRAMITES ------------------------------------------ ");
 
 //instanciamos el servicio de actualizacion de estado de expediente que vamos a inyectar
 var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(repositorioTramite,repositorioExpediente);
@@ -226,9 +212,9 @@ var actualizacionEstadoExpediente = new ActualizacionEstadoExpedienteService(rep
 ////// PRUEBA UNITARIA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
 /////////////////////////////////////////////////////////////////////
 /// 
-Console.WriteLine("//////////////////////////////////////////////////////////");
-Console.WriteLine("/ PRUEBA UNITARIA  - CASO DE USO PARA AGREGAR UN TRAMITE /");
-Console.WriteLine("//////////////////////////////////////////////////////////");
+Console.WriteLine("///////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////// PRUEBA UNITARIA  - CASO DE USO PARA AGREGAR UN TRAMITE ///////////////////////");
+Console.WriteLine("///////////////////////////////////////////////////////////////////////////////////////////");
 
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
 var agregarTramite = new AgregarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
@@ -270,13 +256,11 @@ catch(EntidadNoEncontradaException e)
 Console.WriteLine();
 Console.WriteLine();
 
-////////////////////////////////////////////////////////////////////////////////////
-// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS TRAMITES DE UN EXPEDIENTE //
-////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/ PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS TRAMITES DE UN EXPEDIENTE /");
-Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("///// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS TRAMITES DE UN EXPEDIENTE /////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 //creamos la instancia del caso de uso - ObtenerTodosTramiteUseCase e inyectamos dependencias
 var obtenerPorExpedienteId = new ObtenerPorExpedienteIdUseCase(repositorioTramite,repositorioExpediente);
@@ -297,13 +281,11 @@ foreach(var t in listaTramites.Tramites)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-/////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ////////
-/////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("//////////////////////////////////////////////////////////////////////");
-Console.WriteLine("//// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ////");
-Console.WriteLine("//////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("///////////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ///////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("El id a buscar es: 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf'");
 
 var obtenerPorId = new ObtenerTramitePorIdUseCase(repositorioTramite);
@@ -333,13 +315,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-////////////////////////////////////////////////////////////////////////
-/////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN TRAMITE ////////
-////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN TRAMITE /////");
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN TRAMITE /////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 Console.WriteLine("El id tramite a modificar: '93d11fed-7506-458f-86e2-70264a37f8b8'");
 
@@ -375,13 +355,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-////////////////////////////////////////////////////////////////////////
-/////// PRUEBA UNITARIA - CASO DE USO PARA ELIMINAR UN TRAMITE /////////
-////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/////// PRUEBA UNITARIA - CASO DE USO PARA ELIMINAR UN TRAMITE /////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("/////////////// PRUEBA UNITARIA - CASO DE USO PARA ELIMINAR UN TRAMITE ///////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 Console.WriteLine("El id tramite a eliminar: 'e72a193e-63be-4fd2-a835-8f3f004cf9e2'");
 
@@ -415,13 +393,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-//////////////////////////////////////////////////////////////////////////////////
-///////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA ELIMINAR UN TRAMITE /////////
-//////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("////////////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA ELIMINAR UN TRAMITE /////");
-Console.WriteLine("////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("///////////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA ELIMINAR UN TRAMITE /////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 var eliminarTramiteInexistente = new EliminarTramiteUseCase(repositorioTramite,autorizacionService,actualizacionEstadoExpediente);
 var eliminarTramiteInexistenteRequest = new EliminarTramiteRequest(Guid.NewGuid(),idUsuario);
@@ -452,13 +428,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-//////////////////////////////////////////////////////////////////////////////////
-///////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA MODIFICAR UN TRAMITE ////////
-//////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN TRAMITE /////");
-Console.WriteLine("/////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("////////////// PRUEBA UNITARIA - CASO DE USO PARA MODIFICAR UN TRAMITE ////////////7//////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 var modificarTramiteInexistente = new ModificarTramiteUseCase(repositorioTramite, autorizacionService,actualizacionEstadoExpediente);
 var modicarTramiteInexistenteRequest = new ModificarTramiteRequest(Guid.Parse("93d11fed-7506-458f-86e2-70264a37f8b8"),"", idUsuario);
@@ -491,13 +465,11 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////////////
-/////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ////////
-/////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
-Console.WriteLine("//////////////////////////////////////////////////////////////////////");
-Console.WriteLine("//// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ////");
-Console.WriteLine("//////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
+Console.WriteLine("//////////// PRUEBA UNITARIA - CASO DE USO PARA OBTENER UN TRAMITE POR ID ////////////////");
+Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("El id a buscar es: 'e1fe34b9-c05f-4f54-b14d-b890d67c4acf'");
 
 var obtenerPorIdInexistente = new ObtenerTramitePorIdUseCase(repositorioTramite);
@@ -531,9 +503,7 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-////////////////////////////////////////////////////////////////////////////////////
-// PRUEBA UNITARIA - CASO DE USO PARA OBTENER TODOS LOS TRAMITES DE UN EXPEDIENTE //
-////////////////////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 Console.WriteLine("/ PRUEBA UNITARIA FALLIDA - CASO DE USO PARA OBTENER TODOS LOS TRAMITES DE UN EXPEDIENTE /");
@@ -579,12 +549,10 @@ catch(RepositorioException e)
 Console.WriteLine();
 Console.WriteLine();
 
-/////////////////////////////////////////////////////////////////////
-////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA AGREGAR UN TRAMITE ////////
-/////////////////////////////////////////////////////////////////////
+//--------------------------------------------------------------------------------------------------------------------------
 
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
-Console.WriteLine("/ PRUEBA UNITARIA FALLIDA - CASO DE USO PARA AGREGAR UN TRAMITE /");
+Console.WriteLine("///////////// PRUEBA UNITARIA FALLIDA - CASO DE USO PARA AGREGAR UN TRAMITE //////////////");
 Console.WriteLine("//////////////////////////////////////////////////////////////////////////////////////////");
 
 //crear la instancia de el caso de uso - AgregarTramiteUseCase e inyectamos la dependencia
