@@ -37,15 +37,18 @@ public class Expediente
     }
 
     //metodo que permite modificar la caratula.
-    public void ModificarCaratula(CaratulaVO nuevaCaratula, Guid idUsuario)
+    public void ModificarCaratula(CaratulaVO nuevaCaratula, Guid idUsuario, DateTime fechaUltimaModificacion)
     {
         //comprobamos que el id del usuari que realiza la modificacion no este vacio
         if(idUsuario == Guid.Empty) 
             throw new DominioException("el ID del usuario no puede ser un Guid vacio.");
 
+         if(fechaUltimaModificacion < FechaCreacion)
+            throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion.");
+
         UsuarioUltimoCambio = idUsuario;
         Caratula = nuevaCaratula ?? throw new DominioException("La caratula no puede estar vacia.");
-        FechaUltimaModificacion = DateTime.Now;
+        FechaUltimaModificacion = fechaUltimaModificacion;
     }
 
     //metodo que devuelve un bool si el estado del expediente cambio segun la etiqueta del tramite
@@ -87,12 +90,16 @@ public class Expediente
     }
 
     //metodo que permite al usuario cambiar el estado (flujo natural / cambio de estado manual)
-    public void CambiarEstado(EstadoExpediente nuevoEstado, Guid idUsuario)
+    public void CambiarEstado(EstadoExpediente nuevoEstado, Guid idUsuario, DateTime fechaUltimaModificacion)
     {
         if(idUsuario == Guid.Empty)
             throw new DominioException("El ID del usuario no puede ser un Guid vacio.");
+
+         if(fechaUltimaModificacion < FechaCreacion)
+            throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion.");
         
         UsuarioUltimoCambio = idUsuario;
         Estado = nuevoEstado;
+        FechaUltimaModificacion = fechaUltimaModificacion;
     }
 }
