@@ -5,14 +5,14 @@ namespace SGE.Dominio.Usuarios;
 public class Usuario
 {
     public Guid Id {get; private set;}
-    public String Nombre {get; private set;}
-    public CorreoElectronicoVO CorreoElectronico {get; private set;}
-    public String ContrasenaHash {get; private set;}
+    public string Nombre {get; private set;} = "";
+    public CorreoElectronicoVO CorreoElectronico {get; private set;} = null!;
+    public string ContrasenaHash {get; private set;} = "";
     public bool EsAdministrador {get; private set;}
-    public List<String> Permisos {get; private set;}
+    public List<string> Permisos {get; private set;} = null!;
 
 
-    public Usuario (String nombre, CorreoElectronicoVO correoElectronico, String contrasenaHash, List<String> permisos)
+    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash, List<string> permisos)
     {
         if (string.IsNullOrEmpty(nombre))
             throw new DominioException ("El campo nombre no puede estar vacio");  
@@ -32,7 +32,6 @@ public class Usuario
     }
 
     protected Usuario(){}
-
 
     public void ModificarNombre(string nombre)
     {
