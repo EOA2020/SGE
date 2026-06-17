@@ -5,16 +5,16 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class EliminarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente)
+public class EliminarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutorizacionService autorizacionService, ActualizacionEstadoExpedienteService actualizacionExpediente, IUnidadDeTrabajo uow)
 {
-    public EliminarTramiteResponse Ejecutar(EliminarTramiteRequest request)
+    public EliminarTramiteResponse Ejecutar(EliminarTramiteRequest request,  Guid IdUsuario)
     {
         //verificamos que el id no este vacio
-        if(request.IdUsuario == Guid.Empty)
+        if(IdUsuario == Guid.Empty)
             throw new AplicacionException("El id del usuario no puede estar vacio");
 
         //verificamos que tenga permisos
-        if(!autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteBaja))
+        if(!autorizacionService.PoseeElPermiso(IdUsuario, Permiso.TramiteBaja))
             throw new AutorizacionException("El usuario no posee el permiso");
 
         //verificamos que el id del tramite no este vacio
@@ -32,7 +32,8 @@ public class EliminarTramiteUseCase(ITramiteRepository tramiteRepository,  IAuto
         tramiteRepository.EliminarTramite(tramite.Id);
         
         //actualizamos el aultimo expediente
-        actualizacionExpediente.ActualizarEstadoExpediente(request.IdUsuario,tramite.ExpedienteId);
+        actualizacionExpediente.ActualizarEstadoExpediente(IdUsuario,tramite.ExpedienteId);
+        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new EliminarTramiteResponse(request.IdTramite);

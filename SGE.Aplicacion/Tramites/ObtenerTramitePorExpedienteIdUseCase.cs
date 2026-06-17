@@ -1,3 +1,4 @@
+using System;
 using SGE.Aplicacion.Comun;
 using SGE.Aplicacion.Expedientes;
 using SGE.Dominio.Tramites;
