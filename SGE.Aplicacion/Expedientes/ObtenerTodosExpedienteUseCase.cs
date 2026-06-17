@@ -4,7 +4,6 @@ public class ObtenerTodosExpedienteUseCase(
     IExpedienteRepository expedienteRepository
 )
 {
-
     public ObtenerTodoExpedienteResponse Ejecutar()
     {
         //obtenemos una lista de entidades desde el repositorio

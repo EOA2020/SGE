@@ -1,4 +1,3 @@
-using System.Dynamic;
 using SGE.Dominio.Comun;
 namespace SGE.Dominio.Usuarios;
 
@@ -23,7 +22,7 @@ public class CorreoElectronicoVO
     public static CorreoElectronicoVO Parse (string emailCompleto)
     {
         //Email no puede ser blanco o nulo, y debe contener @
-        if (string.IsNullOrWhiteSpace(emailCompleto) || !emailCompleto.Contains('@')
+        if (string.IsNullOrWhiteSpace(emailCompleto) || !emailCompleto.Contains('@'))
         {
             throw new DominioException("El formato del email es invalido");
         }
