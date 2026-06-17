@@ -13,9 +13,6 @@ public interface IExpedienteRepository
     //obtener todos los expedientes
     List<Expediente> ObtenerTodos();
 
-    //modificar el estado de un expediente de forma manual 
-    void ModificarExpediente(Expediente expediente);
-
     //eliminar un expediente
     void EliminarExpediente(Guid id);
 }
