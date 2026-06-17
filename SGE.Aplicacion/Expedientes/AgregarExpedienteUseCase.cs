@@ -4,42 +4,41 @@ using SGE.Dominio.Expedientes;
 namespace SGE.Aplicacion.Expedientes;
 
 public class AgregarExpedienteUseCase
+(
+    IExpedienteRepository expedienteRepository,
+    IAutorizacionService autorizacionService,
+    ITimeProvider timeProvider,
+    IUnidadDeTrabajo uow
+)
 {
-    //creamos una variable de tipo IExpedienteRepository, que nos permitira inyectar cualquier instacia
-    //de repositorio que use la interfaz IExpedienteRepository.
-    private readonly IExpedienteRepository _expedienteRepository;
-    private readonly IAutorizacionService _autorizacionService;
-
-    public AgregarExpedienteUseCase(IExpedienteRepository expedienteRepository, IAutorizacionService autorizacionService)
-    {
-        //inyectamos la instancia
-        _expedienteRepository = expedienteRepository;
-        _autorizacionService = autorizacionService;
-    }
-
     //funcion que se encarga de crear un nuevo expediente, recibe una peticion
     //para agregar un expediente
-    public AgregarExpedienteResponse Ejecutar(AgregarExpedienteRequest request)
+    public AgregarExpedienteResponse Ejecutar(AgregarExpedienteRequest request, Guid idUsuario)
     {   
         //verificamos que exista un id del usuario que crea el expediente
-        if(request.IdUsuario == Guid.Empty)
+        if(idUsuario == Guid.Empty)
             throw new AplicacionException("El id del usuario no puede estar vacio");
 
         //verificamos que el usuario este autorizado
-        if(!_autorizacionService.PoseeElPermiso(request.IdUsuario, Permiso.TramiteAlta))
-            throw new AutorizacionException($"El usuario de id {request.IdUsuario} no posee los permisos para agregar un expediente.");
+        if(autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
+            throw new AutorizacionException($"El usuario de id {idUsuario} no posee los permisos para agregar un expediente.");
 
         //creamos los values objects que se encargaran de validacion de formato/rango
-        var caratula = new Caratula(request.Caratula);
+        var caratula = new CaratulaVO(request.Caratula);
 
         //creamos una entidad que tendra su propio guid por que nace con ella
         var expediente = new Expediente(
             caratula,
-            request.IdUsuario
+            idUsuario,
+            timeProvider.Fecha,
+            timeProvider.Fecha
         );
 
         //le pasamos el expediente a el repositorio que se encargara de la persistencia
-        _expedienteRepository.AgregarExpediente(expediente);
+        expedienteRepository.AgregarExpediente(expediente);
+
+        //guardamos los cambios
+        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new AgregarExpedienteResponse(expediente.Id);
