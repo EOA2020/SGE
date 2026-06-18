@@ -13,7 +13,7 @@ public class Usuario
     public List<string> Permisos {get; private set;} = null!;
 
 
-    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash, List<string> permisos,
+    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash,
     bool esAdministrador = false)
     {
         if (string.IsNullOrEmpty(nombre))

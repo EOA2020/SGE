@@ -1,7 +1,7 @@
 using SGE.Aplicacion.Comun;
 namespace SGE.Aplicacion.Expedientes;
 
-public class ObtenerPorIdExpedienteCaseUse(
+public class ObtenerPorIdExpedienteUseCase(
     IExpedienteRepository expedienteRepository
 )
 {
