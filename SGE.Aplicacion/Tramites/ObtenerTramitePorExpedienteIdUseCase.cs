@@ -5,7 +5,7 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ObtenerPorExpedienteIdUseCase(ITramiteRepository tramiteRepository, IExpedienteRepository expedienteRepository)
+public class ObtenerTramitePorExpedienteIdUseCase(ITramiteRepository tramiteRepository, IExpedienteRepository expedienteRepository)
 {
     public ObtenerPorExpedienteIdResponse Ejecutar(ObtenerPorExpedienteIdRequest request)
     {

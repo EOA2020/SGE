@@ -4,7 +4,7 @@ using SGE.Aplicacion.Comun;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ObtenerTramitePorIdUseCase(ITramiteRepository tramiteRepository)
+public class ObtenerPorIdUseCase(ITramiteRepository tramiteRepository)
 {
     private readonly ITramiteRepository _tramiteRepository = tramiteRepository;
 
