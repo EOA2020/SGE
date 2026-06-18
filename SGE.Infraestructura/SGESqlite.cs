@@ -1,4 +1,6 @@
 using Microsoft.EntityFrameworkCore;
+using SGE.Aplicacion.Comun;
+using SGE.Dominio.Usuarios;
 
 namespace SGE.Infraestructura;
 
@@ -17,7 +19,7 @@ public class SGESqlite
                 command.ExecuteNonQuery();
             }
 
-            context.SaveChanges();
+            context.SaveChanges(); 
         }
     }
 }
