@@ -1,5 +1,5 @@
 public record class LoginRequest(
-    string correoElectronico,
-    string contrasena
+    string CorreoElectronico,
+    string Contrasena
 );
 

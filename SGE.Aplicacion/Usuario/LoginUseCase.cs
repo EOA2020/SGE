@@ -3,7 +3,10 @@ using SGE.Aplicacion.Comun;
 using SGE.Dominio.Comun;
 using SGE.Dominio.Usuarios;
 
-public class LoginUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow, ITokenProvider tokenProvider)
+public class LoginUseCase(
+    IUsuarioRepository usuarioRepository, 
+    ITokenProvider tokenProvider
+)
 {
     public LoginResponse Ejecutar(LoginRequest request)
     {
@@ -11,7 +14,7 @@ public class LoginUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo
         //chequemos que el mail sea valido
         CorreoElectronicoVO correoElectronico;
         try{
-            correoElectronico = CorreoElectronicoVO.Parse(request.correoElectronico);
+            correoElectronico = CorreoElectronicoVO.Parse(request.CorreoElectronico);
         }
         catch(DominioException)
         {
@@ -19,18 +22,18 @@ public class LoginUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo
         }
 
         //obtenemos su usuario
-        Usuario usuario = usuarioRepository.ObtenerUsuarioPorCorreo(correoElectronico);
+        var usuario = usuarioRepository.ObtenerUsuarioPorCorreo(correoElectronico);
 
         //chequeamos que exista
         if(usuario == null)
-            throw new AplicacionException("El usuario no existe");
+            throw new EntidadNoEncontradaException("El usuario no existe");
         
         //hasheamos la contraseña que ingresaron
-        var contrasenaHash = HashHelper.GenerarSHA256(request.contrasena);
+        var contrasenaHash = HashHelper.GenerarSHA256(request.Contrasena);
 
         //la comparamos con la del usuario
         if(usuario.ContrasenaHash != contrasenaHash)
-            throw new AplicacionException("La contraseña no coincide");
+            throw new AutorizacionException("La contraseña es Incorrecta.");
 
         //generamos el token perteniente al usuario
         var token = tokenProvider.GenerarToken(usuario);
