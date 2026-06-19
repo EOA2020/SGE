@@ -21,11 +21,7 @@ public class RegistrarUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnid
         if(usuarioRepository.ObtenerUsuarioPorCorreo(correoElectronico) != null)
             throw new AplicacionException("EL correo ya se encunetra registrado");
 
-        //hasheamos la contraseña
-        var contrasenaCifrada = HashHelper.GenerarSHA256(request.contrasena);
-
-        //creamos el usuario
-        var usuario = new Usuario(request.nombre,correoElectronico,contrasenaCifrada, new List<string>(),false);
+        var usuario = new Usuario(request.nombre,correoElectronico,request.contrasena, new List<string>());
 
         usuarioRepository.RegistrarUsuario(usuario);
 
