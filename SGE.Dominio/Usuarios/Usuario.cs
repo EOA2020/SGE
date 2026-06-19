@@ -13,7 +13,7 @@ public class Usuario
     public List<string> Permisos {get; private set;} = null!;
 
 
-    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash,
+    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash, List<string> permisos,
     bool esAdministrador = false)
     {
         if (string.IsNullOrEmpty(nombre))
@@ -24,7 +24,7 @@ public class Usuario
             throw new DominioException ("El campo contraseña no puede estar vacio");  
         }
 
-        Id= new Guid();
+        Id= Guid.NewGuid();
         Nombre= nombre;
         CorreoElectronico= correoElectronico;
         ContrasenaHash=contrasenaHash;
@@ -59,5 +59,13 @@ public class Usuario
     public void ModificarAdministrador(bool esAdministrador)
     {
         EsAdministrador= esAdministrador;
+    }
+
+    public void ModificarContrasena(string nuevaContrasenaHash)
+    {
+        if (string.IsNullOrWhiteSpace(nuevaContrasenaHash))
+            throw new DominioException("La contraseña no puede estar vacía");
+            
+        ContrasenaHash = nuevaContrasenaHash;
     }
 }
