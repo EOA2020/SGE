@@ -7,8 +7,10 @@ public class ListarUsuariosUseCase(IUsuarioRepository usuarioRepository)
 {
     public ListarUsuariosResponse Ejecutar(Guid IdAdmin)
     {
+        //verificamos que el id del usuario no este vacio
         if(IdAdmin != Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
+            
         //obtenemos su usuario
         var usuarioSolicitante = usuarioRepository.ObtenerUsuarioPorId(IdAdmin);
         

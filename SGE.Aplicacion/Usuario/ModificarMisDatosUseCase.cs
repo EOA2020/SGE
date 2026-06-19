@@ -8,11 +8,11 @@ public class ModificarMisDatosUseCase(IUsuarioRepository usuarioRepository, IUni
 {
     public ModificarMisDatosResponse Ejecutar(ModificarMisDatosRequest request, Guid IdAdmin)
     {
-        //chequeamos el que el token no este vacio
+        //chequeamos el que el id no este vacio
         if (IdAdmin == Guid.Empty)
             throw new AplicacionException("El token no contiene un ID de usuario válido.");
 
-        //buscamos el usuario correspondiente al token
+        //buscamos el usuario 
         var usuario = usuarioRepository.ObtenerUsuarioPorId(IdAdmin);
 
         //chequeamos que exista
@@ -43,7 +43,7 @@ public class ModificarMisDatosUseCase(IUsuarioRepository usuarioRepository, IUni
             usuario.ModificarContrasena(HashHelper.GenerarSHA256(request.NuevaContrasenaHash));
         }
 
-        
+        //guardamos los cambios
         uow.GuardarCambios();
 
         return new ModificarMisDatosResponse(IdAdmin);

@@ -7,6 +7,7 @@ public class ModificarPermisosUsuarioUseCase(IUsuarioRepository usuarioRepositor
 {
     public ModificarPermisosUsuarioResponse Ejecutar(ModificarPermisosUsuarioRequest request, Guid IdAdmin)
     {
+        //verificamos que el id del usuario no este vacio
         if(IdAdmin == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
 
@@ -32,17 +33,23 @@ public class ModificarPermisosUsuarioUseCase(IUsuarioRepository usuarioRepositor
         if(usuarioModificado == null)
             throw new EntidadNoEncontradaException("El usuario no existe");
 
+        //hacemos una copia de la lista con sus permisos
         var nuevaListaPermisos = new List<string>(usuarioModificado.Permisos);
 
         try
         {
-            Enum.TryParse(request.Permiso,true, out Permiso permisoNuevo);  
+            //verificamos que el permiso sea valido
+            Enum.TryParse(request.Permiso,true, out Permiso permisoNuevo);
+
+            //verificamos que el usuario contenga el nuevo permiso  
             if(nuevaListaPermisos.Contains(permisoNuevo.ToString()))
             {
+                //si tiene el permiso, se lo sacamos
                 nuevaListaPermisos.Remove(permisoNuevo.ToString());
             }
             else
             {
+                //si no lo tiene, se lo agregamos
                 nuevaListaPermisos.Add(permisoNuevo.ToString());
             }
         }
