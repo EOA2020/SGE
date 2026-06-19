@@ -3,7 +3,10 @@ using SGE.Aplicacion.Comun;
 using SGE.Dominio.Comun;
 using SGE.Dominio.Usuarios;
 
-public class EliminarUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow)
+public class EliminarUsuarioUseCase(
+    IUsuarioRepository usuarioRepository, 
+    IUnidadDeTrabajo uow
+)
 {
     public EliminarUsuarioResponse Ejecutar(EliminarUsuarioRequest request, Guid IdAdmin){
 

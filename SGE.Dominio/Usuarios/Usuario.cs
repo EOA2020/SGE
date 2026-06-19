@@ -13,8 +13,8 @@ public class Usuario
     public List<string> Permisos {get; private set;} = null!;
 
 
-    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash, List<string> permisos,
-    bool esAdministrador = false)
+    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash,
+    List<string> permisos, bool esAdministrador = false)
     {
         if (string.IsNullOrEmpty(nombre))
             throw new DominioException ("El campo nombre no puede estar vacio");  
@@ -29,7 +29,7 @@ public class Usuario
         CorreoElectronico= correoElectronico;
         ContrasenaHash=contrasenaHash;
         EsAdministrador= esAdministrador;
-        Permisos= new List<string> ();
+        Permisos= permisos;
 
     }
 
