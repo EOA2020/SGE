@@ -46,6 +46,6 @@ public class ModificarMisDatosUseCase(IUsuarioRepository usuarioRepository, IUni
         
         uow.GuardarCambios();
 
-        return new ModificarMisDatosResponse();
+        return new ModificarMisDatosResponse(request.IdUsuarioDesdeToken);
     }
 }

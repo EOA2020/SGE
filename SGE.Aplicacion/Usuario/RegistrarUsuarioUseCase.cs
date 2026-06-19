@@ -1,8 +1,13 @@
+using SGE.Aplicacion.Autorizacion;
 using SGE.Aplicacion.Comun;
 using SGE.Dominio.Comun;
 using SGE.Dominio.Usuarios;
 
-public class RegistrarUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow)
+public class RegistrarUsuarioUseCase(
+    IUsuarioRepository usuarioRepository, 
+    IUnidadDeTrabajo uow,
+    ITokenProvider tokenProvider
+)
 {
     public RegistrarUsuarioResponse Ejecutar(RegistrarUsuarioRequest request)
     {
@@ -10,7 +15,7 @@ public class RegistrarUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnid
         //chequeamos que el mail sea valido
         CorreoElectronicoVO correoElectronico;
         try{
-            correoElectronico = CorreoElectronicoVO.Parse(request.correoElectronico);
+            correoElectronico = CorreoElectronicoVO.Parse(request.CorreoElectronico);
         }
         catch(DominioException)
         {
@@ -21,13 +26,15 @@ public class RegistrarUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnid
         if(usuarioRepository.ObtenerUsuarioPorCorreo(correoElectronico) != null)
             throw new AplicacionException("EL correo ya se encunetra registrado");
 
-        var usuario = new Usuario(request.nombre,correoElectronico,request.contrasena, new List<string>());
+        var usuario = new Usuario(request.Nombre, correoElectronico,request.Contrasena, new List<string>());
 
         usuarioRepository.RegistrarUsuario(usuario);
 
         uow.GuardarCambios();
 
-        return new RegistrarUsuarioResponse();
+        var token = tokenProvider.GenerarToken(usuario);
+
+        return new RegistrarUsuarioResponse(usuario.Id, token);
 
     }
 
