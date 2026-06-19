@@ -5,22 +5,12 @@ using SGE.Dominio.Usuarios;
 
 public class ListarUsuariosUseCase(IUsuarioRepository usuarioRepository)
 {
-    public ListarUsuariosResponse Ejecutar(ListarUsuariosRequest request)
+    public ListarUsuariosResponse Ejecutar(Guid IdAdmin)
     {
-
-        //chequeamos que el mail sea valido
-        CorreoElectronicoVO correoSolicitante;
-        try
-        {
-            correoSolicitante = CorreoElectronicoVO.Parse(request.correoElectronico);
-        }
-        catch(DominioException)
-        {
-            throw new AplicacionException("El formato del email es inválido");
-        }
-
+        if(IdAdmin != Guid.Empty)
+            throw new AplicacionException("El id no puede estar vacio");
         //obtenemos su usuario
-        var usuarioSolicitante = usuarioRepository.ObtenerUsuarioPorCorreo(correoSolicitante);
+        var usuarioSolicitante = usuarioRepository.ObtenerUsuarioPorId(IdAdmin);
         
         //chequeamos que exista
         if (usuarioSolicitante == null)

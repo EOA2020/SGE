@@ -1,5 +1,5 @@
 using SGE.Dominio.Usuarios;
 
 public record class ListarUsuariosResponse(
-    IEnumerable<UsuarioDTO> usuarios
+    IEnumerable<UsuarioDTO> Usuarios
 );

@@ -1,1 +1,1 @@
-public record class ModificarPermisosUsuarioRequest(string correo1, string correo2, string permiso);
+public record class ModificarPermisosUsuarioRequest(Guid IdUsuario, string Permiso);

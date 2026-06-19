@@ -1,5 +1,3 @@
 
-public record class ModificarMisDatosResponse(
-    Guid Id
-);
+public record class ModificarMisDatosResponse(Guid IdUsuario);
 

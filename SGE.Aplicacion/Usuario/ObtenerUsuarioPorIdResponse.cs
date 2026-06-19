@@ -1,1 +1,0 @@
-public record class ObtenerUsuarioPorIdResponse(UsuarioDTO Usuario);

@@ -1,7 +1,6 @@
 
-public record class ModificarMisDatosRequest(
-    Guid IdUsuarioDesdeToken, 
-    string NuevoNombre, 
-    string NuevoCorreo, 
-    string NuevaContrasenaHash
+public record class ModificarMisDatosRequest( 
+    string? NuevoNombre, 
+    string? NuevoCorreo, 
+    string? NuevaContrasenaHash
 );

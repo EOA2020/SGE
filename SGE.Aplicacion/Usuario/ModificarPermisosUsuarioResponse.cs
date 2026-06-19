@@ -1,1 +1,1 @@
-public record class ModificarPermisosUsuarioResponse();
+public record class ModificarPermisosUsuarioResponse(Guid IdUsuario);
