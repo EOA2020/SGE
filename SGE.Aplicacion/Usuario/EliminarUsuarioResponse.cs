@@ -1,1 +1,1 @@
-public record class EliminarUsuarioResponse();
+public record class EliminarUsuarioResponse(Guid IdUsuario);

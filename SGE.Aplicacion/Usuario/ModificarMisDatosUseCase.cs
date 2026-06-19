@@ -6,26 +6,26 @@ namespace SGE.Aplicacion.Usuarios;
 
 public class ModificarMisDatosUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow)
 {
-    public ModificarMisDatosResponse Ejecutar(ModificarMisDatosRequest request)
+    public ModificarMisDatosResponse Ejecutar(ModificarMisDatosRequest request, Guid IdAdmin)
     {
         //chequeamos el que el token no este vacio
-        if (request.IdUsuarioDesdeToken == Guid.Empty)
+        if (IdAdmin == Guid.Empty)
             throw new AplicacionException("El token no contiene un ID de usuario válido.");
 
         //buscamos el usuario correspondiente al token
-        var usuario = usuarioRepository.ObtenerUsuarioPorId(request.IdUsuarioDesdeToken);
+        var usuario = usuarioRepository.ObtenerUsuarioPorId(IdAdmin);
 
         //chequeamos que exista
         if (usuario == null)
             throw new EntidadNoEncontradaException("El usuario no existe.");
 
-        //modificamos el dato correspondiente
-        if (!string.IsNullOrWhiteSpace(request.NuevoNombre))
+        //modificamos el dato correpondiente
+        if (request.NuevoNombre != null)
         {
             usuario.ModificarNombre(request.NuevoNombre);
         }
 
-        if (!string.IsNullOrWhiteSpace(request.NuevoCorreo))
+        if (request.NuevoCorreo != null)
         {
             try
             {
@@ -38,14 +38,14 @@ public class ModificarMisDatosUseCase(IUsuarioRepository usuarioRepository, IUni
             }
         }
 
-        if (!string.IsNullOrWhiteSpace(request.NuevaContrasenaHash))
+        if(request.NuevaContrasenaHash != null)
         {
-            usuario.ModificarContrasena(request.NuevaContrasenaHash);
+            usuario.ModificarContrasena(HashHelper.GenerarSHA256(request.NuevaContrasenaHash));
         }
 
         
         uow.GuardarCambios();
 
-        return new ModificarMisDatosResponse();
+        return new ModificarMisDatosResponse(IdAdmin);
     }
 }

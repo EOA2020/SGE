@@ -5,21 +5,13 @@ using SGE.Dominio.Usuarios;
 
 public class ModificarPermisosUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow)
 {
-    public ModificarPermisosUsuarioResponse Ejecutar(ModificarPermisosUsuarioRequest request)
+    public ModificarPermisosUsuarioResponse Ejecutar(ModificarPermisosUsuarioRequest request, Guid IdAdmin)
     {
-
-        //chequeamos que el correo sea valido
-        CorreoElectronicoVO correoModificador;
-        try{
-            correoModificador = CorreoElectronicoVO.Parse(request.correo1);
-        }
-        catch(DominioException)
-        {
-            throw new AplicacionException("El formato del email es invalido");
-        }
+        if(IdAdmin == Guid.Empty)
+            throw new AplicacionException("El id no puede estar vacio");
 
         //obteemos su usuario
-        var usuarioModificador = usuarioRepository.ObtenerUsuarioPorCorreo(correoModificador);
+        var usuarioModificador = usuarioRepository.ObtenerUsuarioPorId(IdAdmin);
 
         //chequeamos que no este vacio
         if(usuarioModificador==null)
@@ -30,39 +22,41 @@ public class ModificarPermisosUsuarioUseCase(IUsuarioRepository usuarioRepositor
             throw new AutorizacionException("El usuario no es administrador");
 
         //chequeamos que el correo del usuario a modificar sea valido
-        CorreoElectronicoVO correoModificado;
-        try{
-            correoModificado = CorreoElectronicoVO.Parse(request.correo2);
-        }
-        catch(DominioException)
-        {
-            throw new AplicacionException("El formato del email es invalido");
-        }
+        if(request.IdUsuario == Guid.Empty)
+            throw new AplicacionException("El id del usuario no puede estar vacio");
 
         //obtenemos su usuario
-        var usuarioModificado = usuarioRepository.ObtenerUsuarioPorCorreo(correoModificado);
+        var usuarioModificado = usuarioRepository.ObtenerUsuarioPorId(request.IdUsuario);
 
         //verificamos que no este vacio
         if(usuarioModificado == null)
             throw new EntidadNoEncontradaException("El usuario no existe");
 
-        //creamos una nueva lista de permisos con los permisos del usuario
         var nuevaListaPermisos = new List<string>(usuarioModificado.Permisos);
 
-        // si la lista contiene el permiso ingresado
-        if(nuevaListaPermisos.Contains(request.permiso))
-            //se lo quita
-            nuevaListaPermisos.Remove(request.permiso);
-        else
-            //sino, se lo agrega
-            nuevaListaPermisos.Add(request.permiso);
-
+        try
+        {
+            Enum.TryParse(request.Permiso,true, out Permiso permisoNuevo);  
+            if(nuevaListaPermisos.Contains(permisoNuevo.ToString()))
+            {
+                nuevaListaPermisos.Remove(permisoNuevo.ToString());
+            }
+            else
+            {
+                nuevaListaPermisos.Add(permisoNuevo.ToString());
+            }
+        }
+        catch
+        {
+            throw new AplicacionException("El permiso no es valido");
+        }
+        
         //se agrega o se quita el permiso
         usuarioModificado.ModificarPermiso(nuevaListaPermisos);
 
         //se guardan los cambios
         uow.GuardarCambios();
 
-        return new ModificarPermisosUsuarioResponse();
+        return new ModificarPermisosUsuarioResponse(request.IdUsuario);
     }
 }
