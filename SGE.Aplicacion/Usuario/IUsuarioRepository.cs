@@ -3,11 +3,12 @@ using SGE.Dominio.Usuarios;
 public interface IUsuarioRepository
 {
     void RegistrarUsuario(Usuario usuario);
-    void Login(CorreoElectronicoVO correoElectronico);
-    void ModificarMisDatosUseCase(Guid idUsurio);
-    IEnumerable<Usuario> ListarUsuarios();
-    void EliminarUsuario(Guid idUsuario);
-    void ModificarPermisosUsuario(Guid idUsuario, string permiso);
+    void Login(string correoElectronico, string contrasena);
+    void ModificarMisDatos(Guid idUsurio);
+    IEnumerable<UsuarioDTO> ListarUsuarios();
+    void EliminarUsuario(Usuario usuario);
+    void ModificarPermisosUsuario(List<string> permiso);
     Usuario ObtenerUsuarioPorCorreo(CorreoElectronicoVO correoElectronico);
+    Usuario? ObtenerUsuarioPorId(Guid id);
 
 }
