@@ -4,7 +4,11 @@ using SGE.Dominio.Tramites;
 
 namespace SGE.Aplicacion.Tramites;
 
-public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRepository, IExpedienteRepository _expedienteRepository)
+public class ActualizacionEstadoExpedienteService(
+    ITramiteRepository _tramiteRepository,
+    IExpedienteRepository _expedienteRepository,
+    IUnidadDeTrabajo uow
+)
 {
     public void ActualizarEstadoExpediente(Guid idUsuario, Guid idExpediente)
     {
@@ -39,7 +43,7 @@ public class ActualizacionEstadoExpedienteService(ITramiteRepository _tramiteRep
         bool cambio = expediente.ActualizarEstado(ultimaEtiqueta, idUsuario);
         
         //si cambio, modifcamos el expediente
-        if (cambio) _expedienteRepository.ModificarExpediente(expediente);
+        if (cambio) uow.GuardarCambios();
     }
 
 }

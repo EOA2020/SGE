@@ -30,7 +30,7 @@ public ModificarTramiteResponse Ejecutar(ModificarTramiteRequest request,  Guid 
         var contenido = new ContenidoTramiteVO(request.Contenido);
 
         //modifcamos el contenido
-        tramite.ModificarContenido(contenido, IdUsuario,timeProvider.Fecha,timeProvider.Fecha);
+        tramite.ModificarContenido(contenido, IdUsuario, timeProvider.Fecha);
  
         //actualizamos el ultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(IdUsuario,tramite.ExpedienteId);

@@ -5,10 +5,10 @@ using SGE.Dominio.Usuarios;
 
 public class ListarUsuariosUseCase(IUsuarioRepository usuarioRepository)
 {
-    public ListarUsuariosResponse Ejecutar(Guid IdAdmin)
+    public ListarUsuariosResponse Ejecutar(ListarUsuariosRequest request, Guid IdAdmin)
     {
         //verificamos que el id del usuario no este vacio
-        if(IdAdmin != Guid.Empty)
+        if(IdAdmin == Guid.Empty)
             throw new AplicacionException("El id no puede estar vacio");
             
         //obtenemos su usuario
@@ -35,8 +35,7 @@ public class ListarUsuariosUseCase(IUsuarioRepository usuarioRepository)
             var dto = new UsuarioDTO(
                 u.Id,
                 u.Nombre,
-                u.CorreoElectronico,
-                u.ContrasenaHash,
+                u.CorreoElectronico.ToString(),
                 u.EsAdministrador,
                 u.Permisos
             );

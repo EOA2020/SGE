@@ -39,20 +39,31 @@ public class Tramite
     }
 
     //modificar el contenido del tramite
-    public void ModificarContenido(ContenidoTramiteVO nuevoContenido, Guid idUsuario, DateTime fechaCreacion, DateTime fechaUltimaModificacion)
+    public void ModificarContenido(ContenidoTramiteVO nuevoContenido, Guid idUsuario, DateTime fechaUltimaModificacion)
     {
         if(idUsuario == Guid.Empty)
             throw new DominioException("El ID del usuario no puede ser vacío.");
 
-        if(fechaUltimaModificacion < fechaCreacion)
+        if(fechaUltimaModificacion < FechaCreacion)
             throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion.");
 
-        if(fechaCreacion > DateTime.Now)
-            throw new DominioException("La fecha de creacion no puede ser mayor a la fecha actual.");
 
         Contenido = nuevoContenido ?? throw new DominioException("El contenido no puede ser nulo.");
         UsuarioUltimoCambio = idUsuario;
         FechaUltimaModificacion = fechaUltimaModificacion; 
+    }
+
+    public void ModificarEstado(EtiquetaTramite etiqueta, Guid idUsuario, DateTime fechaModificacion)
+    {
+        if(idUsuario == Guid.Empty)
+            throw new DominioException("El ID del usuario no puede ser vacío.");
+
+        if(fechaModificacion < FechaCreacion)
+            throw new DominioException("La fecha de modificacion no puede ser menor a la fecha de creacion.");
+
+        Etiqueta = etiqueta;
+        UsuarioUltimoCambio = idUsuario;
+        FechaUltimaModificacion = fechaModificacion;
     }
 
 }

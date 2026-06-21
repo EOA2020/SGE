@@ -20,7 +20,7 @@ public class AgregarExpedienteUseCase
             throw new AplicacionException("El id del usuario no puede estar vacio");
 
         //verificamos que el usuario este autorizado
-        if(autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
+        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteAlta))
             throw new AutorizacionException($"El usuario de id {idUsuario} no posee los permisos para agregar un expediente.");
 
         //creamos los values objects que se encargaran de validacion de formato/rango

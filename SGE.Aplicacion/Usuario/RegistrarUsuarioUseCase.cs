@@ -26,7 +26,14 @@ public class RegistrarUsuarioUseCase(
         if(usuarioRepository.ObtenerUsuarioPorCorreo(correoElectronico) != null)
             throw new AplicacionException("EL correo ya se encunetra registrado");
 
-        var usuario = new Usuario(request.Nombre, correoElectronico,request.Contrasena, new List<string>());
+        if(string.IsNullOrWhiteSpace(request.Contrasena))
+            throw new AplicacionException("La contrasena no puede estar vacia.");
+
+        var usuario = new Usuario(
+            request.Nombre, correoElectronico, 
+            HashHelper.GenerarSHA256(request.Contrasena), 
+            new List<string>()
+        );
 
         usuarioRepository.RegistrarUsuario(usuario);
 

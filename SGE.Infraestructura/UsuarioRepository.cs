@@ -27,15 +27,11 @@ public class UsuarioRepository (SGEContext context): IUsuarioRepository
         context.Set<Usuario>().Remove(usuario);
     }
 
-    public Usuario ObtenerUsuarioPorCorreo(string correoElectronico)
+    public Usuario? ObtenerUsuarioPorCorreo(CorreoElectronicoVO correo)
     {
-        var usuario= context.Set<Usuario>().FirstOrDefault(u => u.CorreoElectronico.ToString().Equals(correoElectronico) );
-
-        //Validacion que se encontro usuario
-        if (usuario==null) throw new RepositorioException("No se encontro el usuario encontrado");
-
-        //retorna el usuario encontrado
-        return usuario;
+        return context.Set<Usuario>().FirstOrDefault(
+            u => u.CorreoElectronico.Cuenta == correo.Cuenta &&
+            u.CorreoElectronico.Dominio == correo.Dominio);
     }
     
     public Usuario? ObtenerUsuarioPorId(Guid id)    

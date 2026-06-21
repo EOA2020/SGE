@@ -31,9 +31,10 @@ public class EliminarTramiteUseCase(ITramiteRepository tramiteRepository,  IAuto
         //lo eliminamos
         tramiteRepository.EliminarTramite(tramite.Id);
         
+        uow.GuardarCambios();
+
         //actualizamos el aultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(IdUsuario,tramite.ExpedienteId);
-        uow.GuardarCambios();
 
         //retornamos una respuesta
         return new EliminarTramiteResponse(request.IdTramite);

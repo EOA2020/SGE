@@ -1,7 +1,5 @@
 using SGE.Aplicacion.Autorizacion;
 using SGE.Aplicacion.Comun;
-using SGE.Dominio.Comun;
-using SGE.Dominio.Usuarios;
 
 public class ModificarPermisosUsuarioUseCase(IUsuarioRepository usuarioRepository, IUnidadDeTrabajo uow)
 {
