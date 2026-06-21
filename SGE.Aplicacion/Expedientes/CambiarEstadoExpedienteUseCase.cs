@@ -22,7 +22,7 @@ public class CambiarEstadoExpedienteUseCase(
             throw new AplicacionException("El Guid del usuario no puede estar vacio.");
 
         //verificamos que el usuario tenga permisos
-        if(autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteModificacion))
+        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteModificacion))
             throw new AutorizacionException("El usuario no posee los permisos");
 
         //buscamos el expediente y verificamos que exista

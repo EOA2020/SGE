@@ -27,10 +27,11 @@ public class AgregarTramiteUseCase(ITramiteRepository tramiteRepository,  IAutor
         //lo agregamos
         tramiteRepository.AgregarTramite(tramite);
 
+        uow.GuardarCambios();
+
         //actualizamos el ultimo expediente
         actualizacionExpediente.ActualizarEstadoExpediente(tramite.UsuarioUltimoCambio,tramite.ExpedienteId);
-
-        uow.GuardarCambios();
+        
         //retornamos una respuesta
         return new AgregarTramiteResponse(tramite.Id);   
     }
