@@ -1,20 +1,18 @@
 using SGE.Dominio.Comun;
-using SGE.Dominio.Expedientes;
 
 namespace SGE.Dominio.Usuarios;
 
 public class Usuario
 {
     public Guid Id {get; private set;}
-    public string Nombre {get; private set;} = "";
-    public CorreoElectronicoVO CorreoElectronico {get; private set;} = null!;
-    public string ContrasenaHash {get; private set;} = "";
+    public String Nombre {get; private set;}
+    public CorreoElectronicoVO CorreoElectronico {get; private set;}
+    public String ContrasenaHash {get; private set;}
     public bool EsAdministrador {get; private set;}
-    public List<string> Permisos {get; private set;} = null!;
+    public List<String> Permisos {get; private set;}
 
 
-    public Usuario (string nombre, CorreoElectronicoVO correoElectronico, string contrasenaHash,
-    List<string> permisos, bool esAdministrador = false)
+    public Usuario (String nombre, CorreoElectronicoVO correoElectronico, String contrasenaHash, List<String> permisos)
     {
         if (string.IsNullOrEmpty(nombre))
             throw new DominioException ("El campo nombre no puede estar vacio");  
@@ -24,16 +22,17 @@ public class Usuario
             throw new DominioException ("El campo contraseña no puede estar vacio");  
         }
 
-        Id= Guid.NewGuid();
+        Id= new Guid();
         Nombre= nombre;
         CorreoElectronico= correoElectronico;
         ContrasenaHash=contrasenaHash;
-        EsAdministrador= esAdministrador;
-        Permisos= permisos;
+        EsAdministrador=false;
+        Permisos= new List<string> ();
 
     }
 
     protected Usuario(){}
+
 
     public void ModificarNombre(string nombre)
     {
@@ -59,13 +58,5 @@ public class Usuario
     public void ModificarAdministrador(bool esAdministrador)
     {
         EsAdministrador= esAdministrador;
-    }
-
-    public void ModificarContrasena(string nuevaContrasenaHash)
-    {
-        if (string.IsNullOrWhiteSpace(nuevaContrasenaHash))
-            throw new DominioException("La contraseña no puede estar vacía");
-            
-        ContrasenaHash = nuevaContrasenaHash;
     }
 }
