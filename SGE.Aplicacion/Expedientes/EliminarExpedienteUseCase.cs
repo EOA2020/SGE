@@ -21,7 +21,8 @@ public class EliminarExpedienteUseCase(
         if(idUsuario == Guid.Empty)
             throw new AplicacionException("El Guid del usuario no puede estar vacio.");
 
-        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteBaja))
+        if(!autorizacionService.PoseeElPermiso(idUsuario, Permiso.ExpedienteBaja) &&
+        !autorizacionService.PoseeElPermiso(idUsuario, Permiso.TramiteBaja))
             throw new AutorizacionException("el usuario no posee permisos.");
 
         //borramos todos los tramites del expediente

@@ -59,12 +59,13 @@ public static class UsuariosEndpoints
             return Results.Ok(response);            
         })
         .RequireAuthorization()
-        .WithName("ModificarMisDatos")
-        .WithSummary("Modifica los datos del usuario autenticado")
+        .WithName("ModificarPermisosUsuario")
+        .WithSummary("Modifica los permisos de un usuario")
         .WithDescription(
-            "Permite actualizar el nombre, correo electrónico y/o contraseña del usuario autenticado. " +
-            "Solo se modificarán los campos proporcionados en la solicitud."
+            "Permite agregar o modificar un permiso de un usuario específico a partir de su identificador. " +
+            "La solicitud debe incluir el ID del usuario y el permiso que se desea asignar."
         );
+        
 
         //modificar los datos del usuario
         usuariosApi.MapPut("/", (
@@ -80,11 +81,11 @@ public static class UsuariosEndpoints
             return Results.Ok(response);
         })
         .RequireAuthorization()
-        .WithName("ModificarPermisosUsuario")
-        .WithSummary("Modifica los permisos de un usuario")
+        .WithName("ModificarMisDatos")
+        .WithSummary("Modifica los datos del usuario autenticado")
         .WithDescription(
-            "Permite agregar o modificar un permiso de un usuario específico a partir de su identificador. " +
-            "La solicitud debe incluir el ID del usuario y el permiso que se desea asignar."
+            "Permite actualizar el nombre, correo electrónico y/o contraseña del usuario autenticado. " +
+            "Solo se modificarán los campos proporcionados en la solicitud."
         );
 
         //eliminar a un usuario
