@@ -7,7 +7,7 @@
 ![Architecture](https://img.shields.io/badge/Clean%20Architecture-Implemented-blue?style=for-the-badge)
 ![Status](https://img.shields.io/badge/Status-In%20Development-success?style=for-the-badge)
 
-Sistema de gestión de expedientes y trámites desarrollado en **C# y .NET**, aplicando principios de **Clean Architecture**, separación de responsabilidades y patrones de diseño.
+API REST desarrollada con **ASP.NET Core** siguiendo los principios de **Clean Architecture** para la administración de expedientes, trámites y usuarios. El sistema implementa autenticación mediante **JWT**, control de permisos y documentación interactiva utilizando **Scalar**.
 
 </div>
 
@@ -15,7 +15,7 @@ Sistema de gestión de expedientes y trámites desarrollado en **C# y .NET**, ap
 
 # 📖 Descripción
 
-**SGE** es un sistema orientado a la administración de expedientes y trámites administrativos.
+El Sistema de Gestión de Expedientes (SGE) permite administrar expedientes y los trámites asociados a ellos de manera centralizada. La aplicación expone una API REST que facilita la gestión de usuarios, la autenticación y las operaciones sobre los expedientes, manteniendo una arquitectura desacoplada y fácil de mantener.
 
 El proyecto fue desarrollado utilizando una arquitectura desacoplada y organizada en capas, permitiendo:
 
@@ -29,94 +29,55 @@ El sistema implementa casos de uso independientes, repositorios y persistencia d
 
 ---
 
+## ✨ Funcionalidades 
+- 🔐 Autenticación mediante JWT. 
+- 👥 Gestión de usuarios. 
+- 📁 Administración de expedientes. 
+- 📄 Gestión de trámites asociados a un expediente. 
+- 🛡️ Control de permisos según el usuario autenticado. 
+- ✅ Validaciones de reglas de negocio. 
+- 📚 Documentación interactiva de la API mediante Scalar.
+
+## 🛠️ Tecnologías utilizadas 
+- ASP.NET Core 
+- C# 
+- Minimal API 
+- JWT Authentication 
+- Scalar 
+- Clean Architecture
+
 # 🏗️ Arquitectura
 
-El proyecto sigue una estructura inspirada en **Clean Architecture**.
-
-```text
-SGE
+El proyecto está organizado siguiendo el patrón **Clean Architecture**, separando las responsabilidades en cuatro capas principales:
+```text 
+SGE 
 │
-├── 📁 SGE.Aplicacion
-├── 📁 SGE.Dominio
-├── 📁 SGE.Infraestructura
-└── 📁 SGE.Consola
+├── SGE.WebApi # Endpoints, configuración y autenticación 
+├── SGE.Aplicacion # Casos de uso y lógica de aplicación 
+├── SGE.Dominio # Entidades, reglas de negocio y contratos 
+└── SGE.Infraestructura # Persistencia y acceso a datos 
+```
+
+Esta estructura permite desacoplar la lógica de negocio de la infraestructura, facilitando el mantenimiento, la escalabilidad y la incorporación de nuevas funcionalidades.
+
+---
+
+## 🚀 Ejecución del proyecto 
+
+1. Clonar el repositorio. 
+```bash
+ git clone <https://github.com/EOA2020/SGE.git> 
+``` 
+ 2. Restaurar las dependencias. 
+ ```bash 
+dotnet restore 
+``` 
+3. Ejecutar la aplicación. 
+```bash 
+dotnet run --project SGE.WebApi
 ```
 
 ---
-
-# 📂 Capas del Proyecto
-
-## 🧠 SGE.Dominio
-
-Contiene las entidades principales y reglas de negocio del sistema.
-
-### Responsabilidades
-
-- Modelado del dominio
-- Reglas de negocio
-- Entidades
-- Validaciones
-- Objetos del sistema
-
-### Ejemplos
-
-- Expedientes
-- Trámites
-- Estados
-- Validaciones de dominio
-
----
-
-## ⚙️ SGE.Aplicacion
-
-Contiene la lógica de aplicación mediante **Use Cases**.
-
-### Responsabilidades
-
-- Coordinar operaciones
-- Aplicar reglas del negocio
-- Gestionar autorizaciones
-- Conectar dominio e infraestructura
-
-### Ejemplos
-
-- Crear expediente
-- Eliminar expediente
-- Crear trámite
-- Validaciones de permisos
-
----
-
-## 💾 SGE.Infraestructura
-
-Implementa persistencia y acceso a datos.
-
-### Responsabilidades
-
-- Repositorios
-- Lectura y escritura de archivos
-- Persistencia TXT
-- Acceso externo
-
-### Tecnologías
-
-- Archivos `.txt`
-- Repositories Pattern
-
----
-
-## 🖥️ SGE.Consola
-
-Capa de presentación e interacción con el usuario.
-
-### Responsabilidades
-
-- Inyeccion de dependencias
-- Manejos de errores
-- Ejecución de casos de uso
-
----
-
 # ✨ Características
 
 ## 📌 Funcionalidades actuales
@@ -129,42 +90,8 @@ Capa de presentación e interacción con el usuario.
 - ✅ Repository Pattern
 - ✅ Validaciones de negocio
 - ✅ Separación entre dominio e infraestructura
-
----
-
-# 🧩 Tecnologías Utilizadas
-
-| Tecnología | Uso |
-|---|---|
-| C# | Lenguaje principal |
-| .NET | Framework |
-| Clean Architecture | Arquitectura |
-| Repository Pattern | Persistencia |
-| SOLID Principles | Diseño |
-| TXT Storage | Persistencia de datos |
-
----
-
-# 📁 Estructura del Proyecto
-
-```text
-SGE/
-│
-├── 📁 SGE.Aplicacion/
-│   ├── 📁 Autorizacion/
-│   ├── 📁 Comun/
-│   ├── 📁 Expedientes/
-│   └── 📁 Tramites/
-│
-├── 📁 SGE.Dominio/
-│   ├── 📁 Comun/
-│   ├── 📁 Expedientes/
-│   └── 📁 Tramites/
-│
-├── 📁 SGE.Infraestructura/
-│
-└── 📁 SGE.Consola/
-```
+- ✅ Gestión de usuarios
+- ✅ Minimal WebApi
 
 ---
 
@@ -184,54 +111,51 @@ El proyecto separa responsabilidades entre capas para lograr:
 
 ## 📦 Repository Pattern
 
-Se implementa el patrón Repository para abstraer el acceso a datos.
+El proyecto implementa el patrón **Repository** para desacoplar la lógica de negocio del mecanismo de persistencia de datos. De esta manera, los casos de uso interactúan con interfaces en lugar de depender directamente de una base de datos o de una tecnología específica de almacenamiento.
 
-### Ejemplos
+Esta abstracción facilita el mantenimiento del código, mejora la capacidad de realizar pruebas y permite cambiar la implementación de la persistencia sin afectar la lógica de la aplicación.
+
+### Interfaces principales
 
 ```csharp
-IExpedienteRepository
-ITramiteRepository
+IExpedienteRepository   // Gestión de expedientes
+ITramiteRepository      // Gestión de trámites
+IUsuariosRepository     // Gestión de usuarios
+IUnidadDeTrabajo        // Coordinación de transacciones
+ITimeProvider           // Obtención de fecha y hora desacoplada del sistema
 ```
+
+Cada repositorio define únicamente las operaciones necesarias para su entidad, mientras que su implementación concreta se encuentra en la capa de **Infraestructura**.
 
 ---
 
 ## ⚡ Casos de Uso
 
-Cada acción importante del sistema se implementa como un caso de uso independiente.
+La lógica de negocio de la aplicación se encuentra organizada en **casos de uso**, donde cada clase representa una acción específica que el sistema puede realizar. Esta organización permite mantener cada operación independiente, facilitando su mantenimiento, reutilización y prueba.
+
+Los casos de uso se encargan de validar las reglas de negocio, interactuar con los repositorios necesarios y devolver el resultado de la operación, sin depender de detalles de infraestructura o de la capa de presentación.
 
 ### Ejemplos
 
 ```text
-CrearExpedienteUseCase
-EliminarExpedienteUseCase
-CrearTramiteUseCase
+- CrearExpedienteUseCase
+- EliminarExpedienteUseCase
+- CrearTramiteUseCase
+- RegistrarUsuarioUseCase
+- LoginUseCase
 ```
+
+Cada caso de uso se centra en una única responsabilidad, siguiendo el principio de responsabilidad única (**Single Responsibility Principle**) y favoreciendo una arquitectura modular y desacoplada.
 
 ---
 
-# 🚀 Instalación
-
-## 1️⃣ Clonar el repositorio
-
-```bash
-git clone https://github.com/EOA2020/SGE.git
-```
-
----
-
-## 2️⃣ Abrir la solución
+## Abrir la solución
 
 Abrir el proyecto utilizando:
 
 - Visual Studio
 - Rider
 - VS Code + extensión C#
-
----
-
-## 3️⃣ Ejecutar el proyecto
-
-Seleccionar `SGE.Consola` como proyecto principal y ejecutar.
 
 ---
 
@@ -248,20 +172,6 @@ Este proyecto busca aplicar:
 
 ---
 
-# 📈 Posibles Mejoras Futuras
-
-- 🔹 Base de datos SQL
-- 🔹 API REST
-- 🔹 Interfaz web
-- 🔹 JWT/Auth
-- 🔹 Entity Framework
-- 🔹 Tests unitarios
-- 🔹 Docker
-- 🔹 Logging
-- 🔹 Validaciones avanzadas
-
----
-
 # 👥 Equipo de Desarrollo
 
 Este proyecto fue desarrollado por:
@@ -275,7 +185,7 @@ Proyecto desarrollado con fines académicos y de aprendizaje.
 
 ## Repositorio oficial
 
-👉 https://github.com/EOA2020/SGE
+👉 https://github.com/EOA2020/SGE.git
 
 ---
 
